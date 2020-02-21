@@ -12,12 +12,12 @@ namespace UQAC_IA_TP2.Sudoku
 
         private Assignment SearchRecursion(Assignment assignment , CSP csp)
         {
-            if (csp.isComplete(assignment))
+            if (csp.IsComplete(assignment))
                 return assignment;
             var curVar = SelectUnassignedVariable(csp.variables, assignment, csp);
             foreach (var value in OrderDomainValue(curVar, assignment, csp))
             {
-                if (csp.isValueConsistent(assignment, value))
+                if (csp.IsValueConsistent(assignment, value))
                 {
                     assignment.Add(curVar, value);
                     var result = SearchRecursion(assignment, csp);

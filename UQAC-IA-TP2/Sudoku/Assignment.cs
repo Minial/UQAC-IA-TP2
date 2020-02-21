@@ -6,21 +6,21 @@ namespace UQAC_IA_TP2.Sudoku
     public class Assignment
     {
         
-        private HashSet<Tuple<Variable, int>> assignment;
+        public Dictionary<Variable, dynamic> assignment;
 
         public Assignment()
         {
-            assignment = new HashSet<Tuple<Variable, int>>();
+            assignment = new Dictionary<Variable, dynamic>();
         }
 
-        public void Add(Variable variable, int value)
+        public void Add(Variable variable, dynamic value)
         {
-            assignment.Add(new Tuple<Variable, int>(variable, value));
+            assignment.Add(variable, value);
         }
 
-        public void Remove(Variable variable, int value)
+        public void Remove(Variable variable, dynamic value)
         {
-            
+            assignment.Remove(variable);
         }
     }
 }

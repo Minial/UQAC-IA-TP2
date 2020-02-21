@@ -10,12 +10,12 @@ namespace UQAC_IA_TP2.Sudoku
 
         // public abstract bool ObjectiveTest();
         
-        public bool isComplete(Assignment assignment)
+        public bool IsComplete(Assignment assignment)
         {
-            return false;
+            return assignment.assignment.Count == variables.Count;
         }
 
-        public bool isValueConsistent(Assignment assignment, int value)
+        public bool IsValueConsistent(Assignment assignment, int value)
         {
             return false;
         }
