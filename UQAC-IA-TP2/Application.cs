@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UQAC_IA_TP2.sudoku;
 using UQAC_IA_TP2.sudoku.heuristics;
-using UQAC_TP1_IA.core;
-using UQAC_TP1_IA.core.functions;
-using UQAC_TP1_IA.mansion;
+
 
 
 namespace UQAC_IA_TP2
@@ -16,14 +15,29 @@ namespace UQAC_IA_TP2
     {
         private static void Main(string[] args)
         {
-            var selectionFunction = new MinimumRemainingValueFunction<int>();
-            selectionFunction.SetNext(new DegreeHeuristicFunction<int>());
-            var valueOrderingFunction = new LeastConstrainingValueFunction<int>();
-            var inferenceFunction = new AC3Function<int>();
+            // On génère le Sudoku
+            // Console.Write("Saisir la taille du Sudoku : ");
+            // string saisie = Console.ReadLine();
+            // int size = int.Parse(saisie);
+            var sudoku = SudokuParser.GenerateSudoku(9);
+            sudoku.PrintGrid();
             
-            var sudoku = new Sudoku();
-            var backtracking = new BacktrackingSearch<int>(selectionFunction, valueOrderingFunction, inferenceFunction);
-            var finalAssignment = sudoku.Resolve(backtracking);
+            // On résout le Sudoku
+            var assignment = sudoku.Resolve();
+            var assignmentList = assignment.assignment.ToList();
+            assignmentList.Sort((pair1, pair2) =>
+                ((SudokuVariable) pair1.Key).Position.CompareTo(((SudokuVariable) pair2.Key).Position)
+            );
+
+            int i = 0;
+            foreach (var pair in assignmentList)
+            {
+                if (i % 9 == 0) Console.WriteLine();
+                Console.Write(pair.Value + " ");
+                i++;
+            }
+            Console.WriteLine();
+
         }
     }
 }

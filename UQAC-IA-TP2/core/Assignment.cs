@@ -6,19 +6,19 @@ namespace UQAC_IA_TP2.sudoku
     public class Assignment<T>
     {
         
-        public Dictionary<Variable, T> assignment;
+        public Dictionary<Variable<T>, T> assignment;
 
         public Assignment()
         {
-            assignment = new Dictionary<Variable, T>();
+            assignment = new Dictionary<Variable<T>, T>();
         }
 
-        public void Add(Variable variable, T value)
+        public void Add(Variable<T> variable, T value)
         {
             assignment.Add(variable, value);
         }
 
-        public void Remove(Variable variable, T value)
+        public void Remove(Variable<T> variable, T value)
         {
             assignment.Remove(variable);
         }
