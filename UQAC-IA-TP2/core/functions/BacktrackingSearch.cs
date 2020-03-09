@@ -4,7 +4,9 @@ using System.Linq;
 
 namespace UQAC_IA_TP2.core.functions
 {
-    
+    /// <summary>
+    /// classe gérant le backtracking des différents cas
+    /// </summary>
     public class BacktrackingSearch<T>
     {
         private BacktrackingConfig _config;

@@ -16,6 +16,15 @@ namespace UQAC_IA_TP2.core.functions
         }
     }
     
+    /// <summary>
+    /// Classe gérant la fonction AC3 pour gérer à l'avance les contraintes
+    /// 
+    /// Méthodes :
+    ///     - Apply() : applique la fonction
+    ///     - Neighbors() : permet de retourner les voisins d'un des cas
+    ///     - RemoveInconsistentValues() : enlève les cas impossible
+    /// 
+    /// </summary>
     public class AC3Function<T>
     {
         public static CSP<T> Apply(CSP<T> csp)

@@ -3,11 +3,15 @@ using System.IO;
 
 namespace UQAC_IA_TP2.sudoku
 {
+    /// <summary>
+     /// classe permettant la lecture d'un sudoku depuis un fichier
+     /// 
+     /// Méthode :
+     ///     - GenerateSudoku() : permet la lecture du fichier, nécessite juste de connaitre la taille de la grille à l'avance
+     /// </summary>
     public class SudokuParser
     {
         
-        // Méthode remplissant la grille à partir du ficher sudoku.txt
-        // On peut changer le sudoku du fichier par celui que l'on veut
         public static Sudoku GenerateSudoku(int size)
         {
             int[,] grid = new int[size, size];

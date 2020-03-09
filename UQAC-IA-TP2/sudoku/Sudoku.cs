@@ -6,6 +6,22 @@ using UQAC_IA_TP2.core;
 
 namespace UQAC_IA_TP2.sudoku
 {
+
+    /// <summary>
+    /// Classe représentant une grille de sudoku
+    /// 
+    /// Champs : 
+    ///     - _grid : contient les valeurs de la grille de sudoku
+    ///     - _size : taille de la grille de sudoku
+    ///
+    /// Méthode :
+    ///     - GetConstraint() : vérifie si la contrainte est satisfaite
+    ///     - IsValueConsistent() : vérifie si l'assignation d'une valeur à l'une des cases de la grille est possible
+    ///     - GenerateVariables() : génère une grille de sudoku remplie de façon croissante sur la diagonale
+    ///     - GenerateConstraints() : génère les contraintes en fonction de la taille de la liste
+    ///     - PrintGrid() : affiche la grille
+    ///     - GetDomain() : permet de créer les variable à assigner à la grille
+    /// </summary>
     public class Sudoku : CSP<int>
     {
         private readonly int[,] _grid;
