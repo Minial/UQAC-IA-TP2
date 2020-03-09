@@ -16,7 +16,13 @@ namespace UQAC_IA_TP2.sudoku
             _grid = grid;
             _size = size;
         }
-        
+
+        public override BinaryConstraint<int> GetConstraint(Variable<int> var1, Variable<int> var2)
+        {
+            var tmp = constraints.Where(c => c.Var1 == var1 && c.Var2 == var1);
+            return !tmp.Any() ? null : tmp.First();
+        }
+
         /// Vérifie si l'assignation de la valeur [value] à la variable [variable] est possible
         /// C'est à dire si cette assignation ne viole aucune contrainte du CSP
         public override bool IsValueConsistent(Assignment<int> assignment, Variable<int> variable, int value)

@@ -27,6 +27,8 @@ namespace UQAC_IA_TP2.core
             return assignment.assignment.Count == variables.Count;
         }
 
+        public abstract BinaryConstraint<T> GetConstraint(Variable<T> var1, Variable<T> var2);
+
         public abstract bool IsValueConsistent(Assignment<T> assignment, Variable<T> variable, T value);
 
         protected abstract void GenerateConstraints();
