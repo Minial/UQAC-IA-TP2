@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UQAC_IA_TP2.core;
 
 namespace UQAC_IA_TP2.sudoku
 {
@@ -16,7 +17,8 @@ namespace UQAC_IA_TP2.sudoku
             this.size = size;
         }
         
-
+        /// Vérifie si l'assignation de la valeur [value] à la variable [variable] est possible
+        /// C'est à dire si cette assignation ne viole aucune contrainte du CSP
         public override bool IsValueConsistent(Assignment<int> assignment, Variable<int> variable, int value)
         {
             foreach (var pair in assignment.assignment)
@@ -29,8 +31,19 @@ namespace UQAC_IA_TP2.sudoku
             }
             return true;
         }
-        
-        
+
+        public override bool SatisfyConstraint(Variable<int> varI, Variable<int> varJ, int valueI)
+        {
+            var allowed = false;
+            foreach (var y in varJ.Domain)
+            {
+                if (valueI != y)
+                    allowed = true;
+            }
+            return allowed;
+        }
+
+
         // Obtenir les variables
         protected override void GenerateVariables()
         {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UQAC_IA_TP2.sudoku;
+using UQAC_IA_TP2.core;
 
 namespace UQAC_IA_TP2
 {

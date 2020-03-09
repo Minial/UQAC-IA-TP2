@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace UQAC_IA_TP2.sudoku
+namespace UQAC_IA_TP2.core
 {
     public abstract class Variable<T>
     {

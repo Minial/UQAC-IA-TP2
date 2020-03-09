@@ -1,18 +1,31 @@
-using System;
-using System.Collections.Generic;
+using System.Linq;
 
-namespace UQAC_IA_TP2.sudoku.heuristics
+namespace UQAC_IA_TP2.core.functions
 {
     public class LeastConstrainingValueFunction<T>
     {
-        public static List<T> Apply(Variable<T> variable, CSP<T> csp)
+        public static Variable<T> Apply(Variable<T> variable, CSP<T> csp)
         {
-            var domain = new List<T>(variable.Domain);
-            domain.Sort(delegate(T val1, T val2)
+            // On garde toutes contraintes dont la variable est la source de la contraite
+            var constraints = csp.constraints.Where(c => c.Var1.Equals(variable));
+            // On recupère toutes les variables constraintes avec la variable source
+            var variables = constraints.Select(c => c.Var2);
+            
+
+            int CountValuesReduced(T value)
             {
-                throw new Exception();
+                return variables.Count(v => v.Domain.Contains(value));
+            }
+
+            variable.Domain.Sort(delegate(T val1, T val2)
+            {
+                var nbOfValuesReduced1 = CountValuesReduced(val1);
+                var nbOfValuesReduced2 = CountValuesReduced(val2);
+                return nbOfValuesReduced1.CompareTo(nbOfValuesReduced2);
             });
-            return null;
+
+            return variable;
         }
     }
 }
+

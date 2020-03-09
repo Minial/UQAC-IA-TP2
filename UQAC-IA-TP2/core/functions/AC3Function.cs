@@ -1,50 +1,56 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace UQAC_IA_TP2.sudoku.heuristics
+
+namespace UQAC_IA_TP2.core.functions
 {
+
+    internal class Arc<T>
+    {
+        public Variable<T> VarI;
+        public Variable<T> VarJ;
+
+        public Arc(Variable<T> varI, Variable<T> varJ)
+        {
+            VarI = varI;
+            VarJ = varJ;
+        }
+    }
+    
     public class AC3Function<T>
     {
-
         public static CSP<T> Apply(CSP<T> csp)
         {
-            // var queue = new Queue<BinaryConstraint<T>>();
-            // BinaryConstraint<T> current;
-            // foreach (var c in csp.constraints)
-            //     queue.Enqueue(new BinaryConstraint<T>(c.Var1, c.Var2));
-            //
-            // while (queue.Count != 0)
-            // {
-            //     current = queue.Dequeue();
-            //     if (RemoveInconsistentValues(current))
-            //     {
-            //         foreach (var c in csp.constraints)
-            //         {
-            //             if (current.Var1.IsEquals(c.Var2))
-            //                 queue.Enqueue(csp.createConstraint(c.Var2, c.Var1));
-            //         }
-            //     }
-            // }
+            var queue = new Queue<Arc<T>>(csp.constraints.Select(c => new Arc<T>(c.Var1, c.Var2)));
 
-            return null;
+            while (queue.Count != 0)
+            {
+                var currentArc = queue.Dequeue();
+                if (RemoveInconsistentValues(csp, currentArc.VarI, currentArc.VarJ))
+                {
+                    foreach (var varK in Neighbors(currentArc.VarI, csp))
+                        queue.Enqueue(new Arc<T>(varK, currentArc.VarI));
+                }
+            }
+            return csp;
         }
         
-        private static bool RemoveInconsistentValues(BinaryConstraint<T> constraint)
+
+        private static IEnumerable<Variable<T>> Neighbors(Variable<T> var, CSP<T> csp)
         {
-            bool removed = false;
-            bool test;
-            for(int x = 0; x < constraint.Var1.Domain.Count; x++)
+            return csp.constraints.Where(c => var.Equals(c.Var1)).Select(c => c.Var2);
+        }
+        
+
+        private static bool RemoveInconsistentValues(CSP<T> csp, Variable<T> varI, Variable<T> varJ)
+        {
+            var removed = false;
+            foreach (var x in varI.Domain.ToList())
             {
-                test = false;
-                foreach (var y in constraint.Var2.Domain)
+                if (!csp.SatisfyConstraint(varI, varJ, x))
                 {
-                    if (!y.Equals(constraint.Var1.Domain[x]))
-                        test = true;
-                }
-                if (!test)
-                {
-                    constraint.Var1.Domain.Remove(constraint.Var1.Domain[x]);
+                    varI.Domain.Remove(x);
+                    removed = true;
                 }
             }
             return removed;

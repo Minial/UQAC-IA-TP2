@@ -1,6 +1,6 @@
 using System;
 
-namespace UQAC_IA_TP2.sudoku
+namespace UQAC_IA_TP2.core
 {
     public abstract class BinaryConstraint<T>
     {

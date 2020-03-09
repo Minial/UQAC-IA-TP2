@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using UQAC_IA_TP2.core;
+using UQAC_IA_TP2.core.functions;
 using UQAC_IA_TP2.sudoku;
-using UQAC_IA_TP2.sudoku.heuristics;
 
 
 
@@ -23,12 +23,20 @@ namespace UQAC_IA_TP2
             sudoku.PrintGrid();
             
             // On résout le Sudoku
-            var assignment = sudoku.Resolve();
+            var config = new BacktrackingConfig().WithMrv().WithLcv().WithDegreeHeuristic();
+            var assignment = sudoku.Resolve(config);
+            
+            // On affiche l'assignement obtenu
+            PrintSudokuAssignement(assignment);
+        }
+        
+
+        private static void PrintSudokuAssignement(Assignment<int> assignment)
+        {
             var assignmentList = assignment.assignment.ToList();
             assignmentList.Sort((pair1, pair2) =>
                 ((SudokuVariable) pair1.Key).Position.CompareTo(((SudokuVariable) pair2.Key).Position)
             );
-
             int i = 0;
             foreach (var pair in assignmentList)
             {
@@ -37,7 +45,6 @@ namespace UQAC_IA_TP2
                 i++;
             }
             Console.WriteLine();
-
         }
     }
 }

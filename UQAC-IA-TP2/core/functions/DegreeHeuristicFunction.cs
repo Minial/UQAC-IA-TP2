@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UQAC_IA_TP2.sudoku.heuristics
+namespace UQAC_IA_TP2.core.functions
 {
     public class DegreeHeuristicFunction<T>
     {
