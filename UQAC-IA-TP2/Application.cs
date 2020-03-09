@@ -16,10 +16,10 @@ namespace UQAC_IA_TP2
         private static void Main(string[] args)
         {
             // On génère le Sudoku
-            // Console.Write("Saisir la taille du Sudoku : ");
-            // string saisie = Console.ReadLine();
-            // int size = int.Parse(saisie);
-            var sudoku = SudokuParser.GenerateSudoku(9);
+            Console.Write("Saisir la taille du Sudoku : ");
+            string saisie = Console.ReadLine();
+            int size = int.Parse(saisie);
+            var sudoku = SudokuParser.GenerateSudoku(size);
             sudoku.PrintGrid();
             
             // On résout le Sudoku
@@ -27,11 +27,11 @@ namespace UQAC_IA_TP2
             var assignment = sudoku.Resolve(config);
             
             // On affiche l'assignement obtenu
-            PrintSudokuAssignement(assignment);
+            PrintSudokuAssignement(assignment,size);
         }
         
 
-        private static void PrintSudokuAssignement(Assignment<int> assignment)
+        private static void PrintSudokuAssignement(Assignment<int> assignment, int size)
         {
             var assignmentList = assignment.assignment.ToList();
             assignmentList.Sort((pair1, pair2) =>
@@ -40,7 +40,7 @@ namespace UQAC_IA_TP2
             int i = 0;
             foreach (var pair in assignmentList)
             {
-                if (i % 9 == 0) Console.WriteLine();
+                if (i % size == 0) Console.WriteLine();
                 Console.Write(pair.Value + " ");
                 i++;
             }
