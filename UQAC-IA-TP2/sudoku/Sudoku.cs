@@ -31,18 +31,7 @@ namespace UQAC_IA_TP2.sudoku
             }
             return true;
         }
-
-        public override bool SatisfyConstraint(Variable<int> varI, Variable<int> varJ, int valueI)
-        {
-            var allowed = false;
-            foreach (var y in varJ.Domain)
-            {
-                if (valueI != y)
-                    allowed = true;
-            }
-            return allowed;
-        }
-
+        
 
         // Obtenir les variables
         protected override void GenerateVariables()

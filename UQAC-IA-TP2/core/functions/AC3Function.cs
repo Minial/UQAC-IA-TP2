@@ -40,13 +40,18 @@ namespace UQAC_IA_TP2.core.functions
             return csp.constraints.Where(c => var.Equals(c.Var1)).Select(c => c.Var2);
         }
         
-
+        
         private static bool RemoveInconsistentValues(CSP<T> csp, Variable<T> varI, Variable<T> varJ)
         {
+            var constraints = csp.constraints.Where(c => c.Var1 == varI && c.Var2 == varJ);
+            if (!constraints.Any())
+                return false;
+            
+            var constraint = constraints.First();
             var removed = false;
             foreach (var x in varI.Domain.ToList())
             {
-                if (!csp.SatisfyConstraint(varI, varJ, x))
+                if (!constraint.SatisfyConstraint(x))
                 {
                     varI.Domain.Remove(x);
                     removed = true;

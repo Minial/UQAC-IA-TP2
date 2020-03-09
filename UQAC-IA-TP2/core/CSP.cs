@@ -29,8 +29,6 @@ namespace UQAC_IA_TP2.core
 
         public abstract bool IsValueConsistent(Assignment<T> assignment, Variable<T> variable, T value);
 
-        public abstract bool SatisfyConstraint(Variable<T> varI, Variable<T> varJ, T valueI);
-
         protected abstract void GenerateConstraints();
         
         protected abstract void GenerateVariables();

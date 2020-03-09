@@ -12,5 +12,6 @@ namespace UQAC_IA_TP2.core
             Var2 = var2;
         }
 
+        public abstract bool SatisfyConstraint(T valueI);
     }
 }
