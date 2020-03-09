@@ -7,8 +7,7 @@ namespace UQAC_IA_TP2.core.functions
 
     internal class Arc<T>
     {
-        public Variable<T> VarI;
-        public Variable<T> VarJ;
+        public Variable<T> VarI, VarJ;
 
         public Arc(Variable<T> varI, Variable<T> varJ)
         {

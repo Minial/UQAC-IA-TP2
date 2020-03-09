@@ -23,7 +23,7 @@ namespace UQAC_IA_TP2
             sudoku.PrintGrid();
             
             // On résout le Sudoku
-            var config = new BacktrackingConfig().WithMrv().WithLcv().WithDegreeHeuristic();
+            var config = new BacktrackingConfig().WithMrv().WithLcv().WithDegreeHeuristic().WithAc3();
             var assignment = sudoku.Resolve(config);
             
             // On affiche l'assignement obtenu

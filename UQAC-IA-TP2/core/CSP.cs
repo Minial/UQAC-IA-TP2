@@ -13,7 +13,7 @@ namespace UQAC_IA_TP2.core
         /// 2. Génère les contraintes binaires du problème (implémenté par la classe Sudoku)
         /// 3. Résout le CSP avec l'algorithme du backtracking
         ///
-        /// Retourne l'assignement des variables finalement obtenues
+        /// Retourne l'assignement des variables finalement obtenus
         public Assignment<T> Resolve(BacktrackingConfig config)
         {
             GenerateVariables();
