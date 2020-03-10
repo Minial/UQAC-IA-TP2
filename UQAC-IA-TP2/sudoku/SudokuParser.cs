@@ -12,13 +12,13 @@ namespace UQAC_IA_TP2.sudoku
     public class SudokuParser
     {
         
-        public static Sudoku GenerateSudoku(int size)
+        public static Sudoku GenerateSudoku(string path, int size)
         {
             int[,] grid = new int[size, size];
             char c;
             int value, i, j;
             StreamReader strReader;
-            strReader = new StreamReader("../../../sudoku.txt");
+            strReader = new StreamReader(path);
             i = 0;
             j = 0;
             do
