@@ -9,7 +9,7 @@ using UQAC_IA_TP2.sudoku;
 namespace UQAC_IA_TP2
 {
     /// <summary>
-    /// 
+    /// Classe principale du programme (création du sudoku, résolution affichage du résultat)
     /// </summary>
     internal static class Application
     {

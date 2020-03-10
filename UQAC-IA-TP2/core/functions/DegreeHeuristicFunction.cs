@@ -4,10 +4,11 @@ using System.Linq;
 namespace UQAC_IA_TP2.core.functions
 {
     /// <summary>
-    /// Algorithme permettant de récupérer une liste de variables non assignées impliquées dans le plus grand nombre
-    /// de contraintes du CSP
+    /// Permet de retourner la (ou les) variable(s) impliquée(s) dans le plus grand nombre de contraintes
     ///
-    /// Possède une unique fonction Apply qui exécute l'algorithme et retourne la liste résultante
+    /// Possède une fonction Apply qui exécute l'algorithme et retourne la liste résultante
+    /// Possède une fonction auxiliaire CountConstraints(variable, constraints) -> int qui compte le nombre de
+    /// contraintes dans lesquels la variable est impliqué.
     /// </summary>
     public static class DegreeHeuristicFunction<T>
     {
