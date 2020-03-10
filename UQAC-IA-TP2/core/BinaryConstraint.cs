@@ -5,8 +5,12 @@ namespace UQAC_IA_TP2.core
     /// représenté par la classe BinaryConstraint qui possède les deux variables impliquées dans la contraintes.
     /// BinaryConstraint est une classe abstraite et ne défini pas concrètement la contrainte entre les deux variables.
     ///
-    /// La méthode à implémenter dans les implémentation est SatisfyConstraint(T value) -> bool qui permet de vérifier
-    /// si l’assignement d’une valeur à la première variable de la contrainte est autorisée.
+    /// Méthodes :
+    /// 
+    /// - SatisfyConstraint(T value) -> bool qui permet de vérifier si l’assignement d’une valeur à la première variable
+    ///                                         de la contrainte est autorisée. 
+    /// - WillReduceDomainOfTheSecondVariable(T valueI) -> bool qui permet de vérifier si l’assignement d’une valeur à
+    ///                                             la première variable va réduire le domaine de la seconde variable
     /// </summary>
     public abstract class BinaryConstraint<T>
     {
