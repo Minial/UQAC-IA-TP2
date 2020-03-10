@@ -1,8 +1,12 @@
-using System;
 using System.Collections.Generic;
 
 namespace UQAC_IA_TP2.core
 {
+    /// <summary>
+    /// Associe chaque variable avec une valeur.
+    ///
+    /// Encapsule simplement un dictionnaire et défini deux méthodes Add et Remove 
+    /// </summary>
     public class Assignment<T>
     {
         

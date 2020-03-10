@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace UQAC_IA_TP2.core.functions
 {
-
+    
     internal class Arc<T>
     {
         public Variable<T> VarI, VarJ;
@@ -17,19 +17,20 @@ namespace UQAC_IA_TP2.core.functions
     }
     
     /// <summary>
-    /// Classe gÈrant la fonction AC3 pour gÈrer ‡ l'avance les contraintes
+    /// Impl√©mente l'algorithme AC3 pour g√©rer √† l'avance les contraintes
     /// 
-    /// MÈthodes :
-    ///     - Apply() : applique la fonction
-    ///     - Neighbors() : permet de retourner les voisins d'un des cas
-    ///     - RemoveInconsistentValues() : enlËve les cas impossible
+    /// M√©thodes :
+    ///     - Apply() : applique l'algorithme AC3
+    ///     - Neighbors(var, csp) : retourne une liste des variables impliqu√©es dans une contraintes avec var
+    ///     - RemoveInconsistentValues(csp, varI, varJ) : r√©duit le domaine d'une variable (enl√®ve les valeurs ill√©gales)
+    ///                                                   en fonction de la contrainte entre varI et varJ (si elle existe)
     /// 
     /// </summary>
-    public class AC3Function<T>
+    public static class Ac3Function<T>
     {
         public static CSP<T> Apply(CSP<T> csp)
         {
-            var queue = new Queue<Arc<T>>(csp.constraints.Select(c => new Arc<T>(c.Var1, c.Var2)));
+            var queue = new Queue<Arc<T>>(csp.Constraints.Select(c => new Arc<T>(c.Var1, c.Var2)));
 
             while (queue.Count != 0)
             {
@@ -46,7 +47,7 @@ namespace UQAC_IA_TP2.core.functions
 
         private static IEnumerable<Variable<T>> Neighbors(Variable<T> var, CSP<T> csp)
         {
-            return csp.constraints.Where(c => var.Equals(c.Var1)).Select(c => c.Var2);
+            return csp.Constraints.Where(c => var.Equals(c.Var1)).Select(c => c.Var2);
         }
         
         

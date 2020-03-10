@@ -5,7 +5,25 @@ using System.Linq;
 namespace UQAC_IA_TP2.core.functions
 {
     /// <summary>
-    /// classe g�rant le backtracking des diff�rents cas
+    /// Implémente l'algorithme du backtracking avec ses fonctions auxiliaires
+    ///
+    /// Afin d’améliorer l’efficacité de l’algorithme des heuristiques peuvent être activées, un objet de configuration
+    /// BacktrackingConfig doit alors être fourni pour spécifier les heuristiques à activer.
+    ///
+    /// Méthodes :
+    ///     - Search(CSP) : Fonction principale à appelé pour résoudre le problème d’un CSP (pour obtenir un assignement
+    ///                     résultat)
+    ///     - SearchRecursion(Assignment, CSP) : Fonction de récursion du backtracking (contient le corps de l’algorithme)
+    ///     - SelectUnassignedVariable(Assignment, CSP) : Permet de sélectionner la prochaine variable non assignée à
+    ///                                                   considérer dans l’algorithme. Si activés, les heuristiques MRV
+    ///                                                    et DegreeHeuristic seront appliquées.  
+    ///     - OrderDomainValue(Variable, Assignment, CSP) : Permet de trier le domaine de définition d’une variable. Si
+    ///                                                     activé, l’heuristique LeastConstrainingValue sera appliquée
+    ///                                                     (sinon le domaine de définition de la variable sera tout
+    ///                                                      simplement retourné, sans en changer l’ordre).
+    ///
+    /// La fonction Search() retourne un objet Assignment qui associe chaque variable avec une valeur. C’est la solution
+    /// du CSP.
     /// </summary>
     public class BacktrackingSearch<T>
     {
@@ -23,7 +41,7 @@ namespace UQAC_IA_TP2.core.functions
             if (csp.IsComplete(assignment))
                 return assignment;
             if (_config.Ac3)
-                csp = AC3Function<T>.Apply(csp);
+                csp = Ac3Function<T>.Apply(csp);
             var curVar = SelectUnassignedVariable(assignment, csp);
             foreach (var value in OrderDomainValue(curVar, assignment, csp))
             {
@@ -43,7 +61,7 @@ namespace UQAC_IA_TP2.core.functions
         private Variable<T> SelectUnassignedVariable(Assignment<T> assignment, CSP<T> csp)
         {
             var variables = new List<Variable<T>>();
-            foreach (var v in csp.variables)
+            foreach (var v in csp.Variables)
             {
                 if (!assignment.assignment.Keys.Contains(v))
                     variables.Add(v);

@@ -9,15 +9,12 @@ namespace UQAC_IA_TP2.sudoku
     /// position dans la grille
     /// 
     /// Champs :
-    ///     - Position : position d'une variable
-    /// 
-    /// Méthodes : 
-    ///     - SudokuVariable() : récupère la position d'une variable
+    ///     - Position : position de la variable dans la grille
     /// 
     /// </summary>
     public class SudokuVariable : Variable<int>
     {
-        public Position Position;
+        public readonly Position Position;
         
         public SudokuVariable(List<int> domain, Position pos) : base(domain)
         {

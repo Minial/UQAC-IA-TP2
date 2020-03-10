@@ -5,7 +5,7 @@ using UQAC_IA_TP2.core;
 
 namespace UQAC_IA_TP2
 {
-    public class Utils<T>
+    public static class Utils<T>
     {
         public static List<Variable<T>> SubArrayFirstSameElements(List<Variable<T>> list)
         {
@@ -23,8 +23,8 @@ namespace UQAC_IA_TP2
 
     public class Position : IComparable
     {
-        public int X;
-        public int Y;
+        public readonly int X;
+        public readonly int Y;
 
         public Position(int x, int y)
         {
@@ -34,15 +34,11 @@ namespace UQAC_IA_TP2
 
         public int CompareTo(object? obj)
         {
-            if (obj is Position)
+            if (obj is Position pos2)
             {
-                var pos2 = (Position) obj;
                 return Y > pos2.Y ? 1 : (Y < pos2.Y ? -1 : (X >= pos2.X ? 1 : -1));
             }
-            else
-            {
-                return -1;
-            }
+            return -1;
         }
     }
 }

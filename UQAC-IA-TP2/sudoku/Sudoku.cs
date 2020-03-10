@@ -6,21 +6,20 @@ using UQAC_IA_TP2.core;
 
 namespace UQAC_IA_TP2.sudoku
 {
-
     /// <summary>
-    /// Classe représentant une grille de sudoku
+    /// Classe représentant le CSP d'un Sudoku
     /// 
     /// Champs : 
-    ///     - _grid : contient les valeurs de la grille de sudoku
+    ///     - _grid : contient les valeurs initiales de la grille de sudoku
     ///     - _size : taille de la grille de sudoku
     ///
-    /// Méthode :
-    ///     - GetConstraint() : vérifie si la contrainte est satisfaite
-    ///     - IsValueConsistent() : vérifie si l'assignation d'une valeur à l'une des cases de la grille est possible
-    ///     - GenerateVariables() : génère une grille de sudoku remplie de façon croissante sur la diagonale
-    ///     - GenerateConstraints() : génère les contraintes en fonction de la taille de la liste
+    /// Méthodes :
+    ///     - GetConstraint(var1, var2) : retourne la contrainte impliquant va1 et var2 (null sinon)
+    ///     - IsValueConsistent(assignement, var, value) : vérifie si l'assignation d'une valeur à l'une des cases de la
+    ///                                                    grille est possible avec un certain assignement
+    ///     - GenerateVariables() : génère toutes les variables du CSP (une pour chaque case)
+    ///     - GenerateConstraints() : génère toutes les contraintes binaires de la grille du sudoku
     ///     - PrintGrid() : affiche la grille
-    ///     - GetDomain() : permet de créer les variable à assigner à la grille
     /// </summary>
     public class Sudoku : CSP<int>
     {
@@ -35,7 +34,7 @@ namespace UQAC_IA_TP2.sudoku
 
         public override BinaryConstraint<int> GetConstraint(Variable<int> var1, Variable<int> var2)
         {
-            var tmp = constraints.Where(c => c.Var1 == var1 && c.Var2 == var1);
+            var tmp = Constraints.Where(c => c.Var1 == var1 && c.Var2 == var1);
             return !tmp.Any() ? null : tmp.First();
         }
 
@@ -45,7 +44,7 @@ namespace UQAC_IA_TP2.sudoku
         {
             foreach (var pair in assignment.assignment)
             {
-                foreach (var constraint in constraints)
+                foreach (var constraint in Constraints)
                 {
                     if (variable.Equals(constraint.Var1) && pair.Key.Equals(constraint.Var2) && pair.Value.Equals(value))
                         return false;
@@ -55,73 +54,50 @@ namespace UQAC_IA_TP2.sudoku
         }
         
 
-        // Obtenir les variables
+        // Génère toutes les variables associées à chaque case
         protected override void GenerateVariables()
         {
-            Variable<int> tmp;
-            variables = new List<Variable<int>>();
-            int i, j;
-
-            for (i = 0; i < _size; i++)
+            Variables = new List<Variable<int>>();
+            for (var i = 0; i < _size; i++)
             {
-                for (j = 0; j < _size; j++)
-                {
-                    tmp = new SudokuVariable(GetDomain(_grid[i,j]), new Position(j, i));
-                    variables.Add(tmp);
-                }
+                for (var j = 0; j < _size; j++)
+                    Variables.Add(new SudokuVariable(GetDomain(_grid[i,j]), new Position(j, i)));
             }
         }
+        
 
-
+        /// Génère toutes les contraintes du sudoku (lignes, colonnes, blocs)
         protected override void GenerateConstraints()
         {
-            ConstraintSudoku tmp;
-            Variable<int> v1, v2;
-            constraints = new List<BinaryConstraint<int>>();
-            int i, j, k, z, icell, jcell;
+            Constraints = new List<BinaryConstraint<int>>();
 
-            for (i = 0; i < _size; i++)
+            for (var i = 0; i < _size; i++)
             {
-                for (j = 0; j < _size; j++)
+                for (var j = 0; j < _size; j++)
                 {
                     // Contraintes lignes et colonnes
-                    for (z = 0; z < _size; z++)
+                    for (var z = 0; z < _size; z++)
                     {
                         if (j != z) // ligne
-                        {
-                            v1 = variables.ElementAt(_size * i + j);
-                            v2 = variables.ElementAt(_size * i + z);
-                            tmp = new ConstraintSudoku(v1, v2);
-                            constraints.Add(tmp);
-                        }
+                            Constraints.Add(new ConstraintSudoku(Variables.ElementAt(_size * i + j),  Variables.ElementAt(_size * i + z)));
                         if (i != z) // colonne
-                        {
-                            v1 = variables.ElementAt(_size * i + j);
-                            v2 = variables.ElementAt(_size * z + j);
-                            tmp = new ConstraintSudoku(v1, v2);
-                            constraints.Add(tmp);
-                        }
+                                Constraints.Add(new ConstraintSudoku(Variables.ElementAt(_size * i + j), Variables.ElementAt(_size * z + j)));
                     }
                     // Contraintes blocs
-                    icell = (int)(i / Math.Sqrt(_size));
-                    jcell = (int)(j / Math.Sqrt(_size));
-
-                    for (k = (int)(0 + Math.Sqrt(_size) * icell); k < Math.Sqrt(_size) + Math.Sqrt(_size) * icell; k++)
+                    var icell = (int)(i / Math.Sqrt(_size));
+                    var jcell = (int)(j / Math.Sqrt(_size));
+                    for (var k = (int)(0 + Math.Sqrt(_size) * icell); k < Math.Sqrt(_size) + Math.Sqrt(_size) * icell; k++)
                     {
-                        for (z = (int)(0 + Math.Sqrt(_size) * jcell); z < Math.Sqrt(_size) + Math.Sqrt(_size) * jcell; z++)
+                        for (var z = (int)(0 + Math.Sqrt(_size) * jcell); z < Math.Sqrt(_size) + Math.Sqrt(_size) * jcell; z++)
                         {
                             if (i != k && j != z)
-                            {
-                                v1 = variables.ElementAt(_size * i + j);
-                                v2 = variables.ElementAt(_size * k + z);
-                                tmp = new ConstraintSudoku(v1, v2);
-                                constraints.Add(tmp);
-                            }
+                                Constraints.Add(new ConstraintSudoku(Variables.ElementAt(_size * i + j), Variables.ElementAt(_size * k + z)));
                         }
                     }
                 }
             }
         }
+        
         
         // Méthode d'affichage de la grille
         public void PrintGrid()
@@ -136,6 +112,7 @@ namespace UQAC_IA_TP2.sudoku
                 Console.Write("\n");
             }
         }
+        
 
         private List<int> GetDomain(int value)
         {
